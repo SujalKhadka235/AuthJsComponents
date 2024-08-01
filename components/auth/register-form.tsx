@@ -8,7 +8,6 @@ import * as z from "zod";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { FormError } from "../form-error";
-import { login } from "@/actions/login";
 import { useTransition } from "react";
 import {
   Form,
@@ -19,6 +18,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { FormSucess } from "../form-sucess";
+import { register } from "@/actions/register";
 const RegisterForm = () => {
   const [error, setError] = useState<string | undefined>("");
   const [sucess, setSucess] = useState<string | undefined>("");
@@ -27,7 +27,7 @@ const RegisterForm = () => {
     setError("");
     setSucess("");
     startTransition(() =>
-      login(values).then((data) => {
+      register(values).then((data) => {
         setError(data.error);
         setSucess(data.sucess);
       })
