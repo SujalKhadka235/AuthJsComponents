@@ -7,7 +7,6 @@ import {
   AuthRoutes,
   PublicRoutes,
 } from "@/routes";
-import next from "next";
 export default auth((req) => {
   const { nextUrl } = req;
   const isLoggedin = !!req.auth;

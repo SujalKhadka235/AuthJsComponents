@@ -9,6 +9,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { FormError } from "../form-error";
 import { login } from "@/actions/login";
+import { useSearchParams } from "next/navigation";
 import { useTransition } from "react";
 import {
   Form,
@@ -20,6 +21,12 @@ import {
 } from "@/components/ui/form";
 import { FormSucess } from "../form-sucess";
 const LoginForm = () => {
+  const SearchParams = useSearchParams();
+  const urlError =
+    SearchParams.get("error") === "OAuthAccountNotLinked"
+      ? "Email already in use with different Provider"
+      : "";
+
   const [error, setError] = useState<string | undefined>("");
   const [sucess, setSucess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
@@ -28,8 +35,8 @@ const LoginForm = () => {
     setSucess("");
     startTransition(() =>
       login(values).then((data) => {
-        setError(data.error);
-        setSucess(data.sucess);
+        setError(data?.error);
+        setSucess(data?.sucess);
       })
     );
   };
@@ -87,7 +94,7 @@ const LoginForm = () => {
               )}
             />
           </div>
-          <FormError message={error} />
+          <FormError message={error || urlError} />
           <FormSucess message={sucess} />
           <Button
             disabled={isPending}
